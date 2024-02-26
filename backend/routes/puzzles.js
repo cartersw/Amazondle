@@ -1,18 +1,18 @@
 const express = require('express')
-const User = require('../models/userModel')
+const User = require('../models/puzzleModel')
 const router = express.Router()
 const {
-    createUser,
-    getUsers,
-} = require('../controllers/userController')
+    createPuzzle,
+    getPuzzles,
+} = require('../controllers/puzzleController')
 //GET all
-router.get('/', getUsers)
+router.get('/', getPuzzles)
 //GET single
 router.get('/:id', (req, res) => {
     res.json({mssg: 'GET single user'})
 })
 //POST new user
-router.post('/', createUser) 
+router.post('/', createPuzzle) 
 //DELETE a workout
 router.delete('/:id', (req, res) => {
     res.json({mssg: 'DELETE a new user'})
@@ -28,4 +28,3 @@ router.patch('/:id', (req, res) => {
 
 
 module.exports = router
-
