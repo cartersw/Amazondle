@@ -13,10 +13,10 @@ const getPuzzles = async (req, res)  => {
 
 //create new puzzle
 const createPuzzle = async (req, res)  => {
-    const {puzzleId, description, solution, difficultyLevel} = req.body
+    const {puzzleName, description, solution, difficultyLevel} = req.body
 
     try {
-        const puzzle = await Puzzle.create({puzzleId, description, solution, difficultyLevel})
+        const puzzle = await Puzzle.create({puzzleName, description, solution, difficultyLevel})
         res.status(200).json(puzzle)
     } catch (error){
         res.status(400).json({error: error.message})

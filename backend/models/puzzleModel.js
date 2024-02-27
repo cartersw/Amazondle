@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const puzzleSchema = new mongoose.Schema({
-    puzzleId: {
+    puzzleName: {
         type: String,
         required: true,
         unique: true
