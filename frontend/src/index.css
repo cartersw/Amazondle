@@ -1,19 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-/* Adjusted layout */
+
 :root {
-  --primary: #FF9900; /* Changed to Amazon's brand color for primary elements */
+  --primary: #FF9900; 
   --error: #e7195a;
+  --text-color: #333333; 
+  --detail-background: #ffffff; 
+  --button-color: #ffa500; 
+  --font-family: 'Arial', sans-serif; 
 }
+
 
 body {
   background: #f1f1f1;
   margin: 0;
-  font-family: "Roboto", sans-serif; /* Changed to Roboto for a closer match */
+  font-family: "Roboto", sans-serif; 
 }
 
 header {
-  background: #232f3e; /* Adjusted to a dark color based on the image */
+  background: #040a11; 
 }
 
 header .container {
@@ -22,11 +27,11 @@ header .container {
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 header a {
-  color: #ffffff; /* Text color changed to white for better visibility on dark background */
+  color: #ffffff; 
   text-decoration: none;
 }
 
@@ -34,4 +39,57 @@ header a {
   max-width: 1400px;
   padding: 20px;
   margin: 0 auto;
+}
+
+
+.home {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 20px; 
+  background-color: var(--background-color);
+  font-family: var(--font-family);
+}
+
+.puzzle-details {
+  background: var(--detail-background);
+  border-radius: 8px; 
+  margin: 10px auto; 
+  padding: 15px; 
+  position: relative;
+  box-shadow: 0px 4px 6px rgba(0,0,0,0.1); 
+}
+
+.puzzle-details h4 {
+  margin: 0 0 15px 0; 
+  font-size: 18px; 
+  color: var(--primary);
+  font-weight: bold; 
+}
+
+.puzzle-details p {
+  margin: 0 0 5px 0; 
+  font-size: 14px; 
+  color: var(--text-color);
+}
+
+.puzzle-details span {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+  background: var(--button-color);
+  padding: 8px; 
+  border-radius: 50%;
+  color: #ffffff; 
+}
+
+
+button, a {
+  background-color: var(--button-color);
+  color: #ffffff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-weight: bold;
 }
