@@ -1,15 +1,16 @@
-import puppeteer from 'puppeteer';
+import puppeteer from "puppeteer";
 
 async function scrapeBestSellers(): Promise<string[]>
 {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  await page.goto("https://www.amazon.com/gp/bestsellers/", { waitUntil: 'networkidle2' }) ;
+  await page.goto("https://www.amazon.com/gp/bestsellers/", { waitUntil: "networkidle2" }) ;
+  await page.waitForSelector(".a-carousel-card .a-link-normal[href]", { visible: true });
 
   const itemLinks: string[] = await page.evaluate(() => {
     const links: string[] = [];
-    const linkElements = document.querySelectorAll('.a-carousel-card .a-link-normal[href]');
+    const linkElements = document.querySelectorAll(".a-carousel-card .a-link-normal[href]");
     
     linkElements.forEach((linkElement: Element) => {
       const href = (linkElement as HTMLAnchorElement).href;
@@ -32,7 +33,7 @@ async function scrapeItemLink(link: string): Promise<string[]>
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  await page.goto(link, { waitUntil: 'networkidle2' });
+  await page.goto(link, { waitUntil: "networkidle2" });
 
   const itemLinks: string[] = await page.evaluate(() => {
     const title = document.querySelector("#productTitle")?.textContent?.trim() || "Title Not Found";
