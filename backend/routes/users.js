@@ -4,24 +4,23 @@ const router = express.Router()
 const {
     createUser,
     getUsers,
+    getUser,
+    deleteUser,
+    updateUser,
 } = require('../controllers/userController')
 //GET all
 router.get('/', getUsers)
+
 //GET single
-router.get('/:id', (req, res) => {
-    res.json({mssg: 'GET single user'})
-})
+router.get('/:id', getUser)
+
 //POST new user
 router.post('/', createUser) 
 //DELETE a workout
-router.delete('/:id', (req, res) => {
-    res.json({mssg: 'DELETE a new user'})
-})
-//UPDATE a workout
-router.patch('/:id', (req, res) => {
-    res.json({mssg: 'UPDATE a new user'})
-})
+router.delete('/:id', deleteUser)
 
+//UPDATE a workout
+router.patch('/:id', updateUser)
 
 
 
