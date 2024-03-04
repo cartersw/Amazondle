@@ -2,6 +2,7 @@ require('dotenv').config()
 
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 const userRoutes = require('./routes/users')
 const puzzleRoutes = require('./routes/puzzles')
 const attemptRoutes = require('./routes/attempts')
@@ -16,6 +17,9 @@ app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
 })
+
+app.use(cors())
+
 
 app.use('/api/users',userRoutes)
 app.use('/api/puzzles',puzzleRoutes)

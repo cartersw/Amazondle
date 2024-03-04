@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* Adjusted layout */
+:root {
+  --primary: #FF9900; /* Changed to Amazon's brand color for primary elements */
+  --error: #e7195a;
+}
+
+body {
+  background: #f1f1f1;
+  margin: 0;
+  font-family: "Roboto", sans-serif; /* Changed to Roboto for a closer match */
+}
+
+header {
+  background: #232f3e; /* Adjusted to a dark color based on the image */
+}
+
+header .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header a {
+  color: #ffffff; /* Text color changed to white for better visibility on dark background */
+  text-decoration: none;
+}
+
+.pages {
+  max-width: 1400px;
+  padding: 20px;
+  margin: 0 auto;
+}
