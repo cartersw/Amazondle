@@ -5,7 +5,7 @@ async function scrapeBestSellers(): Promise<string[]>
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  await page.goto("https://www.amazon.com/gp/bestsellers/", { waitUntil: "networkidle2" }) ;
+  await page.goto("https://www.amazon.com/gp/bestsellers/", { waitUntil: "domcontentloaded" }) ;
   await page.waitForSelector(".a-carousel-card .a-link-normal[href]", { visible: true });
 
   const itemLinks: string[] = await page.evaluate(() => {
@@ -33,7 +33,7 @@ async function scrapeItemLink(link: string): Promise<string[]>
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  await page.goto(link, { waitUntil: "networkidle2" });
+  await page.goto(link, { waitUntil: "domcontentloaded" });
 
   const itemLinks: string[] = await page.evaluate(() => {
     const title = document.querySelector("#productTitle")?.textContent?.trim() || "Title Not Found";
