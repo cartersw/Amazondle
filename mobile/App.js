@@ -50,8 +50,7 @@ const App = () => {
           />
         </View>
         <Text style={styles.productName}>
-          Stanley Quencher Stainless Steel Vacuum Insulated Tumbler with Lid and
-          Straw, 20 Oz
+          owo data
         </Text>
         <FlatList
           data={guesses}
@@ -82,7 +81,7 @@ const App = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#FAFAFA", // or use the same color as your app's background
+    backgroundColor: "#000000", // or use the same color as your app's background
   },
   container: {
     flex: 1,
@@ -103,8 +102,9 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute', // Position the back button absolutely
     left: 20, // Place it 20 units from the left
-    top: '50%', // Center it vertically
-    transform: [{ translateY: -10 }], // Adjust vertical centering if needed
+    height: '100%', // Make the button fill the height of the header
+    alignItems: 'center', // Horizontally center the back button content
+    justifyContent: 'center', // Vertically center the back button content
   },
   logo: {
     height: 50, // Adjust the height to fit your header bar
