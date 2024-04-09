@@ -6,7 +6,7 @@ async function scrapeBestSellers(): Promise<string[]>
   const page = await browser.newPage();
 
   await page.goto("https://www.amazon.com/gp/bestsellers/", { waitUntil: "domcontentloaded" }) ;
-  await page.waitForSelector(".a-carousel-card .a-link-normal[href]", { visible: true });
+  await page.waitForSelector(".a-carousel-card .a-link-normal[href]", { visible: true, timeout: 60000 });
 
   const itemLinks: string[] = await page.evaluate(() => {
     const links: string[] = [];
