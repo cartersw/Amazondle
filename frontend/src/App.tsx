@@ -1,14 +1,42 @@
-import { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
 
-function App() {
+function App()
+{
   const [count, setCount] = useState(0);
+
+  const [target] = useState(Math.floor(Math.random() * 101));
+  const [guess, setGuess] = useState("");
+  const [guessList, setGuessList] = useState<string[]>([]);
+  const [responses, setResponses] = useState<string[]>([]);
 
   const updateCount = async () => {
     setCount(count + 1);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGuess(e.target.value);
+  };
+
+  const handleGuess = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if(e.key != "Enter") return;
+
+    setGuessList(currentList => [...currentList, guess]);
+
+    const numGuess = parseInt(guess, 10);
+
+    if (numGuess === target)
+      setResponses(currentList => [...currentList, "Congratulations!"]);
+    else if (numGuess > target)
+      setResponses(currentList => [...currentList, "Too high!"]);
+    else
+      setResponses(currentList => [...currentList, "Too low!"]);
+
+    setGuess("");
+    console.log(responses);
   };
 
   return (
@@ -38,6 +66,16 @@ function App() {
             <p className="read-the-docs">
               Click on the Vite and React logos to learn more
             </p>
+            <div>
+              <h1>?</h1>
+
+              {guessList.map((g, i) => (
+                <p key={i}>{g}: {responses[i]}</p>
+              ))}
+              <input type="number" value={guess} onChange={handleChange} onKeyDown={handleGuess}/>
+
+            </div>
+
           </>
         }/>
       </Routes>
