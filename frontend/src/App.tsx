@@ -8,7 +8,7 @@ function App()
 {
   const [count, setCount] = useState(0);
 
-  const [target] = useState(Math.floor(Math.random() * 101));
+  const [target] = useState(parseFloat((Math.random() * 100).toFixed(2)));
   const [guess, setGuess] = useState("");
   const [guessList, setGuessList] = useState<string[]>([]);
   const [responses, setResponses] = useState<string[]>([]);
@@ -18,25 +18,27 @@ function App()
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGuess(e.target.value);
+    let value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
+    setGuess(value);
   };
 
   const handleGuess = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if(e.key != "Enter") return;
+    if(e.key != "Enter" || guess == "") return;
 
-    setGuessList(currentList => [...currentList, guess]);
+    const numGuess = parseFloat(guess).toFixed(2);
 
-    const numGuess = parseInt(guess, 10);
+    setGuessList(currentList => [...currentList, numGuess]);
 
-    if (numGuess === target)
+    if (parseFloat(numGuess) === target)
       setResponses(currentList => [...currentList, "Congratulations!"]);
-    else if (numGuess > target)
+    else if (parseFloat(numGuess) > target)
       setResponses(currentList => [...currentList, "Too high!"]);
     else
       setResponses(currentList => [...currentList, "Too low!"]);
 
     setGuess("");
-    console.log(responses);
+    console.log(target);
+    console.log(numGuess);
   };
 
   return (
