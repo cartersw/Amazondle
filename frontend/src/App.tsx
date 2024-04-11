@@ -1,21 +1,13 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App()
 {
-  const [count, setCount] = useState(0);
-
   const [target] = useState(parseFloat((Math.random() * 100).toFixed(2)));
   const [guess, setGuess] = useState("");
   const [guessList, setGuessList] = useState<string[]>([]);
   const [responses, setResponses] = useState<string[]>([]);
-
-  const updateCount = async () => {
-    setCount(count + 1);
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
@@ -81,9 +73,7 @@ function App()
                 <p key={i} style={{"backgroundColor": getColor(parseFloat(g), target, target * 2)}}>{g}: {responses[i]}</p>
               ))}
               <input value={guess} onChange={handleChange} onKeyDown={handleGuess}/>
-
             </div>
-
           </>
         }/>
       </Routes>
