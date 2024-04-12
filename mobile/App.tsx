@@ -9,7 +9,6 @@ import {
   Image,
 } from "react-native";
 import { ClerkProvider, SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
-import Constants from "expo-constants";
 import SignUpScreen from "./components/SignUpScreen";
 import SignInScreen from "./components/SignInScreen";
 import * as SecureStore from "expo-secure-store";
@@ -17,6 +16,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import GlobalLoadingIndicator from "./components/GlobalLoadingIndicator";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LoadingProvider } from "./components/LoadingContext";
+import GameScreen from "./components/GameScreen";
+
 
 const tokenCache = {
   getToken(key: string) {
@@ -155,6 +156,11 @@ export default function App() {
               name="Home"
               component={HomeScreen}
               options={{ headerShown: false }} // Keeps the header but removes the title
+            />
+            <Stack.Screen
+              name="Game"
+              component={GameScreen}
+              options={{ title: "Price Guesser" }}
             />
             <Stack.Screen
               name="SignUp"
