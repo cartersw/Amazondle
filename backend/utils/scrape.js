@@ -1,31 +1,7 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 
-const scrapeSearchPage = async (item) => {
-  const browser = await puppeteer.launch({ headless: false });
-
-  const page = await browser.newPage();
-
-  await page.goto("https://www.amazon.com");
-
-  try
-  {
-    await page.type("#twotabsearchtextbox", item);
-    await page.click("#nav-search-submit-button");
-  }
-  catch(e)
-  {
-    await page.type('input[type="text"]', item);
-    await page.click('input[type="submit"]');
-  }
-  await page.waitForSelector(".s-pagination-next");
-
-  //await new Promise(resolve => setTimeout(resolve, 10000000));
-
-  // Go to next results page
-  //await page.click(".s-pagination-next");
-  //await page.waitForSelector(".s-pagination-next");
-
+const scrape = async (page) =>{
   // Gather product title
   const title = await page.$$eval("div.a-section.a-spacing-base h2 span.a-color-base", (nodes) =>
     nodes.map((n) => n.innerText)
@@ -57,8 +33,37 @@ const scrapeSearchPage = async (item) => {
 
   const jsonData = JSON.stringify(amazonSearchArray, null, 2);
   fs.writeFileSync("amazonSearchResults.json", jsonData);
+}
+
+const scrapeSearch = async (item) => {
+  const browser = await puppeteer.launch({ headless: false });
+
+  const page = await browser.newPage();
+
+  await page.goto("https://www.amazon.com");
+
+  try
+  {
+    await page.type("#twotabsearchtextbox", item);
+    await page.click("#nav-search-submit-button");
+  }
+  catch(e)
+  {
+    // Fallback case, cause apparently Amazon has 2 sites...?
+    await page.type('input[type="text"]', item);
+    await page.click('input[type="submit"]');
+  }
+  await page.waitForSelector(".s-pagination-next");
+
+  //await new Promise(resolve => setTimeout(resolve, 10000000));
+
+  // Go to next results page
+  //await page.click(".s-pagination-next");
+  //await page.waitForSelector(".s-pagination-next");
+
+  await scrape(page);
 
   await browser.close();
 };
 
-scrapeSearchPage("Phones");
+scrapeSearch("Case");
