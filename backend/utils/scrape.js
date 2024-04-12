@@ -31,12 +31,11 @@ const scrape = async (page) =>{
     else return null;  // Return null for items that do not contain all three
 }).filter(item => item !== null);  // Filter out the null entries
 
-  const jsonData = JSON.stringify(amazonSearchArray, null, 2);
-  fs.writeFileSync("amazonSearchResults.json", jsonData);
+  return amazonSearchArray;
 }
 
 const scrapeSearch = async (item) => {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: true });
 
   const page = await browser.newPage();
 
@@ -61,9 +60,9 @@ const scrapeSearch = async (item) => {
   //await page.click(".s-pagination-next");
   //await page.waitForSelector(".s-pagination-next");
 
-  await scrape(page);
+  ret = await scrape(page);
 
   await browser.close();
-};
 
-scrapeSearch("Case");
+  return ret;
+};
