@@ -46,8 +46,8 @@ const scrapeSearch = async (item) => {
   const html = await fetchPage("https://www.amazon.com", item);
 
   if (!html) return [];
-
-  return scrape(html);
+  return JSON.stringify(scrape(html), null, 2);
+  //return scrape(html);
 };
 
 const main = async () => {
