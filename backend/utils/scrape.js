@@ -1,68 +1,58 @@
-const puppeteer = require("puppeteer");
-const fs = require("fs");
+const axios = require("axios");
+const { parse } = require("node-html-parser");
 
-const scrape = async (page) =>{
-  // Gather product title
-  const title = await page.$$eval("div.a-section.a-spacing-base h2 span.a-color-base", (nodes) =>
-    nodes.map((n) => n.innerText)
-  );
-
-  // Gather price
-  const price = await page.$$eval(
-    "div.a-section.a-spacing-base span.a-price[data-a-color='base'] span.a-offscreen",
-    (nodes) => nodes.map((n) => n.innerText)
-  );
-
-  // Gather picture
-  const picture = await page.$$eval(
-    'div.a-section.a-spacing-base img.s-image[srcset]',
-    (nodes) => nodes.map((n) => n.src)
-  );
-
-  // Put data together
-  const amazonSearchArray = title.map((_, index) => {
-    if (title[index] && price[index] && picture[index]) {
-      return {
-        title: title[index],
-        price: price[index],
-        picture: picture[index],
-      };
-    }
-    else return null;  // Return null for items that do not contain all three
-}).filter(item => item !== null);  // Filter out the null entries
-
-  return amazonSearchArray;
-}
-
-const scrapeSearch = async (item) => {
-  const browser = await puppeteer.launch({ headless: true });
-
-  const page = await browser.newPage();
-
-  await page.goto("https://www.amazon.com");
+const fetchPage = async (url, item) => {
+  const headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"};
 
   try
   {
-    await page.type("#twotabsearchtextbox", item);
-    await page.click("#nav-search-submit-button");
+    const response = await axios.get(url + "/s?k=" + encodeURIComponent(item), { headers });
+    return response.data;
   }
-  catch(e)
+  catch (error)
   {
-    // Fallback case, cause apparently Amazon has 2 sites...?
-    await page.type('input[type="text"]', item);
-    await page.click('input[type="submit"]');
+    console.error("Error fetching page:", error);
+    return null;
   }
-  await page.waitForSelector(".s-pagination-next");
-
-  //await new Promise(resolve => setTimeout(resolve, 10000000));
-
-  // Go to next results page
-  //await page.click(".s-pagination-next");
-  //await page.waitForSelector(".s-pagination-next");
-
-  ret = await scrape(page);
-
-  await browser.close();
-
-  return ret;
 };
+
+const scrape = (html) => {
+  const root = parse(html);
+
+  // Gather product titles
+  const titleNodes = root.querySelectorAll("div.a-section.a-spacing-base h2 span.a-color-base.a-text-normal");
+  const titles = titleNodes.map(node => node.innerText);
+
+  // Gather prices
+  const priceNodes = root.querySelectorAll('div.a-section.a-spacing-base span.a-price[data-a-color="base"] span.a-offscreen');
+  const prices = priceNodes.map(node => node.innerText);
+
+  // Gather pictures
+  const pictureNodes = root.querySelectorAll("div.a-section.a-spacing-base img.s-image[srcset]");
+  const pictures = pictureNodes.map(node => node.getAttribute("src"));
+
+  // Put data together
+  const products = titles.map((title, index) => {
+    if (title && prices[index] && pictures[index])
+      return { title, price: prices[index], picture: pictures[index] };
+
+    return null;
+  }).filter(item => item !== null);
+
+  return products;
+};
+
+const scrapeSearch = async (item) => {
+  const html = await fetchPage("https://www.amazon.com", item);
+
+  if (!html) return [];
+
+  return scrape(html);
+};
+
+const main = async () => {
+  const result = await scrapeSearch("Pencil Case");
+  console.log(result);
+}
+
+main();
