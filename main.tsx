@@ -6,6 +6,7 @@ import { ClerkProvider } from '@clerk/clerk-react'
 
 // Import your publishable key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+import AppHeader from './AppHeader';
 
 if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key")
@@ -14,6 +15,7 @@ if (!PUBLISHABLE_KEY) {
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <AppHeader />
       <App />
     </ClerkProvider>
   </React.StrictMode>,
