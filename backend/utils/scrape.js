@@ -6,7 +6,8 @@ const fetchPage = async (url, item) => {
 
   try
   {
-    const response = await axios.get(url + "/s?k=" + encodeURIComponent(item), { headers });
+    const response = await axios.get(url + "/s?k=" + encodeURIComponent(item), { headers, maxRedirects: 5 });
+    console.log(response.data);
     return response.data;
   }
   catch (error)
@@ -19,42 +20,55 @@ const fetchPage = async (url, item) => {
 const scrape = (html) => {
   const root = parse(html);
 
-  // Gather product titles
-  let titleNodes = root.querySelectorAll("div.a-section.a-spacing-base h2 span.a-color-base.a-text-normal");
-  titleNodes = titleNodes.length == 0 ? root.querySelectorAll("div.a-section.a-spacing-small span.a-size-medium.a-color-base.a-text-normal") : titleNodes;
-  const titles = titleNodes.map(node => node.innerText);
+  const ret = [];
 
-  // Gather prices
-  let priceNodes = root.querySelectorAll('div.a-section.a-spacing-base span.a-price[data-a-color="base"] span.a-offscreen');
-  priceNodes = priceNodes.length == 0 ? root.querySelectorAll("div.a-section span.a-price span.a-offscreen") : priceNodes;
-  const prices = priceNodes.map(node => node.innerText);
+  const selectors = {
+    "title":["div.p13n-sc-truncated", "span.a-text-normal.a-color-base"],
+    "price": ["span.a-size-base span", "span.a-price span.a-offscreen"],
+    "picture": ["img", "img.s-image[srcset]"]
+  }
 
-  // Gather pictures
-  let pictureNodes = root.querySelectorAll("div.a-section.a-spacing-base img.s-image[srcset]");
-  pictureNodes = pictureNodes.length == 0 ? root.querySelectorAll("div.a-section.aok-relative.s-image-fixed-height img") : pictureNodes;
-  const pictures = pictureNodes.map(node => node.getAttribute("src"));
+  let rootNode = root.querySelectorAll("div.p13n-sc-uncoverable-faceout"); // Book Grid format
 
-  // Put data together
-  const products = titles.map((title, index) => {
-    if (title && prices[index] && pictures[index])
-      return { title, price: prices[index], picture: pictures[index] };
+  let selectorIndex = rootNode.length == 0 ? 1 : 0;
 
-    return null;
-  }).filter(item => item !== null);
+  rootNode = rootNode.length == 0 ? root.querySelectorAll("div.s-card-container") : rootNode; // Default format
 
-  return products;
+  /*
+  const visibleElements = rootNode.filter(el => {
+    console.log(el);
+    const style = el.getAttribute('style');
+    console.log(style);
+  return el.offsetParent !== null && (!style || !style.includes("display: none"));
+  });
+  */
+
+  rootNode.map(node => {
+    try
+    {
+      ret.push({"title": node.querySelector(selectors.title[selectorIndex]).innerText,
+                "price": node.querySelector(selectors.price[selectorIndex]).innerText,
+                "picture": node.querySelector(selectors.picture[selectorIndex]).getAttribute("src")});
+    }
+    catch(e)
+    {
+      // Skipping if one of the options are missing
+    }
+  });
+
+  return ret;
 };
 
 const scrapeSearch = async (item) => {
   const html = await fetchPage("https://www.amazon.com", item);
 
   if (!html) return [];
-  return JSON.stringify(scrape(html), null, 2);
-  //return scrape(html);
+  //return JSON.stringify(scrape(html), null, 2);
+  return scrape(html);
 };
 
 const main = async () => {
-  const result = await scrapeSearch("Laptop");
+  const result = await scrapeSearch("Books");
   console.log(result);
 }
 
