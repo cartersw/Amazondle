@@ -165,3 +165,38 @@ button {
   flex: 0 0 auto; /* Ensures the logo does not grow or shrink */
   margin: 0 240px; /* Adds margin to separate it from other elements */
 }
+
+/* Home CSS */
+
+.landing-logo {
+  width: 20%;
+  height: auto;
+  margin-top: 20%;
+  transform: rotate(-10deg);
+}
+
+.clerk-buttons {
+  display: flex;
+  gap: 350px; /* Space between sign-up and sign-in buttons */
+  margin-top: 70px; /* Adjust margin as needed */
+  margin-left: 20px;
+  transform: rotate(-10deg);
+}
+
+.sign-in-btn {
+  margin-left: 120px;
+}
+
+.sign-up-btn {
+  margin-right: -100px;
+}
+
+.github {
+  padding-top: 200px;
+}
+
+.github a, a:visited {
+  color: white;
+  font-size: 20px;
+  font-weight: 800;
+}
