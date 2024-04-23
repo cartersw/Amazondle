@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { SignedIn, SignedOut, UserButton, useUser, useClerk } from '@clerk/clerk-react';
 import './index.css';
+import logo from './assets/logo.png';
 
 function SignUpButton() {
     const clerk = useClerk();
@@ -56,13 +57,13 @@ function AppHeader() {
     return (
       <header className="app-header">
           <div className="header-content">
-              <div className="temp-text">About Us</div>
-              <h1 className="amazondle">AMAZONDLE</h1>
+          <div className="left-content"> {/* New div for left-aligned buttons */}
+          <button onClick={() => window.location.href = '/pages/about'}>About Us</button>
+          <button onClick={() => window.location.href = '/leaderboard'}>Leaderboard</button>
+        </div>
+              <img src={logo} alt="Logo" className="logo" />
               <div className="auth-buttons">
-                  <SignedOut>
-                      <SignUpButton />
-                      <SignInButton />
-                  </SignedOut>
+                  
                   <SignedIn>
                       <UserButton afterSignOutUrl="/" />
                   </SignedIn>

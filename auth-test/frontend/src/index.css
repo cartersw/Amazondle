@@ -133,7 +133,35 @@ button:focus-visible {
 .header-content {
   display: flex;
   justify-content: space-between;
+  text-align: center;
+  justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem; /* Adjust padding as needed */
-  width: 60%; /* Ensure the header content spans the full width */
+  width: 90%; /* Ensure the header content spans the full width */
+}
+
+/* Amazondle black and orange logo*/
+.logo {
+  height: 50px;
+  width: auto;
+  align-items: center;
+}
+
+button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  background-color: #eb8c07;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.left-content, .auth-buttons {
+  flex: 1; /*spacing*/
+}
+
+.logo {
+  flex: 0 0 auto; /* Ensures the logo does not grow or shrink */
+  margin: 0 240px; /* Adds margin to separate it from other elements */
 }
