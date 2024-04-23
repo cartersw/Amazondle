@@ -1,14 +1,28 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  SafeAreaView,
+  Image,
+} from "react-native";
+import axios from "axios";
 
 const GameScreen = () => {
-  const [target, setTarget] = useState(parseFloat((Math.random() * 100).toFixed(2)));
+  const [item, setItem] = useState("");
+  const [product, setProduct] = useState(null);
+  const [target, setTarget] = useState(0);
   const [guess, setGuess] = useState("");
   const [guessList, setGuessList] = useState<string[]>([]);
-  const [responses, setResponses] = useState<string[]>([]);
-  
+  const [isGameOver, setIsGameOver] = useState(false);
 
   const scrollViewRef = useRef<ScrollView>(null);
+
   useEffect(() => {
     if (scrollViewRef.current) {
       setTimeout(() => {
@@ -17,44 +31,75 @@ const GameScreen = () => {
     }
   }, [guessList]);
 
+  const fetchProduct = async () => {
+    try {
+      const response = await axios.get(
+        "https://c9a1-69-109-176-86.ngrok-free.app/api/scrape",
+        {
+          params: { item },
+        }
+      );
+      const fetchedProduct = response.data.data;
+      setProduct(fetchedProduct);
 
-  const handleChange = (value: string) => {
-    const sanitizedValue = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
-    setGuess(sanitizedValue);
+      if (fetchedProduct.price) {
+        setTarget(parseFloat(fetchedProduct.price.replace(/[^0-9.-]+/g, "")));
+      } else {
+        console.error("Price is undefined for the fetched product");
+        // Handle the case when the price is undefined
+        // Display an error message to the user or set a default target price
+        setTarget(0);
+        alert("The price information is missing for the fetched product.");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.error("Product not found");
+        // Handle the case when the product is not found
+        alert("The requested product could not be found.");
+      } else {
+        console.error("Error fetching product:", error);
+        // Handle other error cases or show a generic error message to the user
+        alert(
+          "An error occurred while fetching the product. Please try again."
+        );
+      }
+    }
   };
 
-  const [isGameOver, setIsGameOver] = useState(false);
+  const handleChange = (value: string) => {
+    const sanitizedValue = value
+      .replace(/[^0-9.]/g, "")
+      .replace(/(\..*?)\..*/g, "$1");
+    setGuess(sanitizedValue);
+  };
 
   const handleGuess = () => {
     if (guess === "") return;
 
     const numGuess = parseFloat(guess).toFixed(2);
-    setGuessList(currentList => [numGuess, ...currentList]);
+    setGuessList((currentList) => [numGuess, ...currentList]);
 
     if (parseFloat(numGuess) === target) {
-      setResponses(currentList => ["Correct!", ...currentList]);
       setIsGameOver(true);
-    } else if (parseFloat(numGuess) > target) {
-      setResponses(currentList => ["Too high", ...currentList]);
-    } else {
-      setResponses(currentList => ["Too low", ...currentList]);
     }
 
     setGuess("");
-    console.log(target);
-    console.log(numGuess);
   };
 
   const handleStartOver = () => {
     setGuessList([]);
-    setResponses([]);
     setIsGameOver(false);
     setGuess("");
-    setTarget(parseFloat((Math.random() * 100).toFixed(2)));
+    setProduct(null);
+    setItem("");
   };
 
-
-  const getColor = (value: number, ideal: number, range: number, isCorrect: boolean): string => {
+  const getColor = (
+    value: number,
+    ideal: number,
+    range: number,
+    isCorrect: boolean
+  ): string => {
     if (isCorrect) {
       return "#FFD700"; // Gold color for correct guess
     }
@@ -81,7 +126,11 @@ const GameScreen = () => {
     const isCorrect = parsedGuess === target;
     const color = getColor(parsedGuess, target, target * 2, isCorrect);
     const icon = isCorrect ? "★" : parsedGuess < target ? "▲" : "▼";
-    const message = isCorrect ? "Correct!" : parsedGuess < target ? "Too low" : "Too high";
+    const message = isCorrect
+      ? "Correct!"
+      : parsedGuess < target
+      ? "Too low"
+      : "Too high";
 
     return (
       <View key={index} style={styles.guessContainer}>
@@ -103,30 +152,59 @@ const GameScreen = () => {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         keyboardVerticalOffset={Platform.OS === "ios" ? 105 : 5}
       >
-        <Text style={styles.title}>Price Guesser</Text>
-        <ScrollView
-          ref={scrollViewRef}
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollViewContent}
-        >
-          {guessList.slice().reverse().map(renderGuess)}
-        </ScrollView>
-        {isGameOver ? (
-          <TouchableOpacity style={styles.startOverButton} onPress={handleStartOver}>
-            <Text style={styles.startOverButtonText}>Start Over</Text>
-          </TouchableOpacity>
+        {product ? (
+          <>
+            <Text style={styles.title}>{product.title}</Text>
+            {product.picture && (
+              <Image
+                source={{ uri: product.picture }}
+                style={styles.productImage}
+                resizeMode="contain"
+              />
+            )}
+            <ScrollView
+              ref={scrollViewRef}
+              style={styles.scrollView}
+              contentContainerStyle={styles.scrollViewContent}
+            >
+              {guessList.slice().reverse().map(renderGuess)}
+            </ScrollView>
+            {isGameOver ? (
+              <TouchableOpacity
+                style={styles.startOverButton}
+                onPress={handleStartOver}
+              >
+                <Text style={styles.startOverButtonText}>Start Over</Text>
+              </TouchableOpacity>
+            ) : (
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  placeholder="Enter your guess"
+                  value={guess}
+                  onChangeText={handleChange}
+                />
+                <TouchableOpacity style={styles.button} onPress={handleGuess}>
+                  <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </>
         ) : (
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              keyboardType="numeric"
-              placeholder="Enter your guess"
-              value={guess}
-              onChangeText={handleChange}
-            />
-            <TouchableOpacity style={styles.button} onPress={handleGuess}>
-              <Text style={styles.buttonText}>Submit</Text>
-            </TouchableOpacity>
+          <View style={styles.centerView}>
+            <Text style={styles.title}>Enter an Item</Text>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter an item"
+                value={item}
+                onChangeText={setItem}
+              />
+              <TouchableOpacity style={styles.button} onPress={fetchProduct}>
+                <Text style={styles.buttonText}>Start Game</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
       </KeyboardAvoidingView>
@@ -139,6 +217,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
+
   startOverButton: {
     backgroundColor: "#FF6B6B",
     paddingHorizontal: 20,
@@ -162,7 +241,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,
   },
@@ -205,14 +284,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#000",
   },
+  centerView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     marginTop: 20,
-    marginBottom: 10,
   },
   input: {
-    flex: 1,
+    width: 200, // Adjust the width as per your requirement
     height: 40,
     borderColor: "gray",
     borderWidth: 1,
@@ -229,6 +312,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  productImage: {
+    width: 150,
+    height: 150,
+    marginBottom: 20,
   },
 });
 

@@ -11,30 +11,12 @@ import {
 import { ClerkProvider, SignedIn, SignedOut, useAuth } from "@clerk/clerk-expo";
 import SignUpScreen from "./components/SignUpScreen";
 import SignInScreen from "./components/SignInScreen";
-import * as SecureStore from "expo-secure-store";
 import { NavigationContainer } from "@react-navigation/native";
 import GlobalLoadingIndicator from "./components/GlobalLoadingIndicator";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LoadingProvider } from "./components/LoadingContext";
 import GameScreen from "./components/GameScreen";
-
-
-const tokenCache = {
-  getToken(key: string) {
-    try {
-      return SecureStore.getItemAsync(key);
-    } catch (err) {
-      return null;
-    }
-  },
-  saveToken(key: string, value: string) {
-    try {
-      return SecureStore.setItemAsync(key, value);
-    } catch (err) {
-      return null;
-    }
-  },
-};
+import ProfileScreen from "./components/ProfileScreen";
 
 const SignOut = () => {
   const { isLoaded, signOut } = useAuth();
@@ -102,7 +84,7 @@ const HomeScreen = ({ navigation }) => {
           />
           {/* Modify the welcome text to include the user's email */}
           <Text style={styles.welcomeText}>
-            Welcome to Amazondle, {emailAddress || "Guest"}!
+            Welcome to Amazondle, {userFromUserHook?.username}!
           </Text>
           <Text style={styles.subtitleText}>The game to guess prices!</Text>
           <View style={styles.buttonContainer}>
@@ -131,46 +113,34 @@ const HomeScreen = ({ navigation }) => {
 export default function App() {
   return (
     <LoadingProvider>
-      <ClerkProvider
-        tokenCache={{
-          getToken: async (key: string) => {
-            try {
-              return await SecureStore.getItemAsync(key);
-            } catch (err) {
-              return null;
-            }
-          },
-          saveToken: async (key: string, value: string) => {
-            try {
-              await SecureStore.setItemAsync(key, value);
-            } catch (err) {
-              return null;
-            }
-          },
-        }}
-        publishableKey="pk_test_dGlkeS1oZXJvbi0zNi5jbGVyay5hY2NvdW50cy5kZXYk"
-      >
+      <ClerkProvider publishableKey="pk_test_Z2VuZXJvdXMtcGFudGhlci0xOC5jbGVyay5hY2NvdW50cy5kZXYk">
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Home">
             <Stack.Screen
               name="Home"
               component={HomeScreen}
-              options={{ headerShown: false }} // Keeps the header but removes the title
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="Game"
               component={GameScreen}
-              options={{ title: "Price Guesser" }}
+              options={{ title: "" }}
             />
             <Stack.Screen
               name="SignUp"
               component={SignUpScreen}
-              options={{ title: "" }} // Removes the header entirely for SignUpScreen
+              options={{ title: "" }}
             />
             <Stack.Screen
               name="SignIn"
               component={SignInScreen}
-              options={{ title: "" }} // Removes the header entirely for SignInScreen
+              options={{ title: "" }}
+            />
+            {/* Add the ProfileScreen to the stack navigator */}
+            <Stack.Screen
+              name="Profile"
+              component={ProfileScreen}
+              options={{ title: "Profile" }}
             />
           </Stack.Navigator>
         </NavigationContainer>

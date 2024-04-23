@@ -7,7 +7,6 @@ import {
   StyleSheet,
 } from "react-native";
 import { useSignIn } from "@clerk/clerk-expo";
-import SignInWithOAuth from "./SignInWithOAuth";
 
 const styles = StyleSheet.create({
   container: {
@@ -72,7 +71,7 @@ export default function SignInScreen({ navigation }) {
       // Navigate to the home screen after successful sign-in
       navigation.navigate("Home");
     } catch (err: any) {
-      console.log(err);
+      console.log(err + "it's here");
     }
   };
 
@@ -108,7 +107,6 @@ export default function SignInScreen({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={onSignInPress}>
         <Text style={styles.buttonText}>Sign in</Text>
       </TouchableOpacity>
-      <SignInWithOAuth navigation={navigation} />
     </View>
   );
 }

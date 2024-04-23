@@ -10,8 +10,6 @@ import {
 import { useSignUp } from "@clerk/clerk-expo";
 import { useLoading } from "./LoadingContext"; // Adjust the path as necessary
 
-import SignInWithOAuth from "./SignInWithOAuth";
-
 const styles = StyleSheet.create({
   linkText: {
     color: "#007AFF",
@@ -68,6 +66,7 @@ export default function SignUpScreen({ navigation }) {
   const { isLoaded, signUp, setActive } = useSignUp();
   const { startLoading, stopLoading } = useLoading(); // Use the loading context
   const [emailAddress, setEmailAddress] = React.useState("");
+  const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [pendingVerification, setPendingVerification] = React.useState(false);
   const [code, setCode] = React.useState("");
@@ -81,7 +80,7 @@ export default function SignUpScreen({ navigation }) {
 
     startLoading(); // Start the loading indicator
     try {
-      await signUp.create({ emailAddress, password });
+      await signUp.create({ emailAddress, password, username });
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
       setPendingVerification(true);
       setErrorMessage(""); // Clear any previous error message
@@ -126,6 +125,17 @@ export default function SignUpScreen({ navigation }) {
               autoCapitalize="none"
               placeholderTextColor="#999"
               keyboardType="email-address"
+              value={username}
+              placeholder="Username"
+              onChangeText={(username) => setUsername(username)}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              autoCapitalize="none"
+              placeholderTextColor="#999"
+              keyboardType="email-address"
               value={emailAddress}
               placeholder="Email"
               onChangeText={(email) => setEmailAddress(email)}
@@ -147,7 +157,6 @@ export default function SignUpScreen({ navigation }) {
           <TouchableOpacity style={styles.button} onPress={onSignUpPress}>
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
-          <SignInWithOAuth navigation={navigation} action="signUp" />
         </View>
       )}
       {pendingVerification && (
