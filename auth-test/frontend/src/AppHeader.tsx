@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { SignedIn, SignedOut, UserButton, useUser, useClerk } from '@clerk/clerk-react';
+import { Link } from 'react-router-dom';
+
 import './index.css';
 import logo from './assets/logo.png';
 
@@ -58,10 +60,14 @@ function AppHeader() {
       <header className="app-header">
           <div className="header-content">
           <div className="left-content"> {/* New div for left-aligned buttons */}
+          <button onClick={() => window.location.href = '/'}>Play!</button>
           <button onClick={() => window.location.href = '/pages/about'}>About Us</button>
           <button onClick={() => window.location.href = '/leaderboard'}>Leaderboard</button>
+          
         </div>
-              <img src={logo} alt="Logo" className="logo" />
+                <Link to="/">
+                    <img src={logo} alt="Logo" className="logo" />
+                </Link>
               <div className="auth-buttons">
                   
                   <SignedIn>

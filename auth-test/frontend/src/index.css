@@ -148,7 +148,7 @@ button:focus-visible {
 }
 
 button {
-  padding: 10px 20px;
+  padding: 10px 25px;
   margin-right: 10px;
   background-color: #eb8c07;
   color: white;
@@ -163,5 +163,5 @@ button {
 
 .logo {
   flex: 0 0 auto; /* Ensures the logo does not grow or shrink */
-  margin: 0 240px; /* Adds margin to separate it from other elements */
+  margin: 0 140px; /* Adds margin to separate it from other elements */
 }

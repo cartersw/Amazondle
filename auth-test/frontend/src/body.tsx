@@ -6,12 +6,12 @@ import viteLogo from '/vite.svg';
 import './index.css';
 
 
-function body(){
+function Body(){
     return (
         <div>
-        <p>fuyihiufiufiufhiufihufuifuifuih</p>
+        <p>Game page</p>
      </div>
     );
   }
   
-  export default body;
+  export default Body;
