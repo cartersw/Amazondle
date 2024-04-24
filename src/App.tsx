@@ -5,7 +5,7 @@ import Home from './Home';
 import AppHeader from './AppHeader';
 import About from './pages/about';
 import Body from './Body';
-import Leaderboard from './pages/Leaderboard';
+
 import { SignedOut, SignedIn } from '@clerk/clerk-react';
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
                 <Routes>
                     <Route path="/pages/about" element={<About />} />
                     <Route path="/" element={<Body />} />
-                    <Route path="/leaderboard" element={<Leaderboard />} />
+                   
                 </Routes>
            </SignedIn>
         </Router>

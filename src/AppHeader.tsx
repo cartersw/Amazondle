@@ -62,7 +62,7 @@ function AppHeader() {
           <div className="left-content"> {/* New div for left-aligned buttons */}
           <button onClick={() => window.location.href = '/'}>Play!</button>
           <button onClick={() => window.location.href = '/pages/about'}>About Us</button>
-          <button onClick={() => window.location.href = '/leaderboard'}>Leaderboard</button>
+         
           
         </div>
                 <Link to="/">

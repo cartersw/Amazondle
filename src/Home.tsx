@@ -16,6 +16,7 @@ function SignInButton() {
 }
 function Home() {
   return (
+    
     <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-center min-h-screen py-12 px-4 bg-gradient-to-br from-[#1a1a1a] to-[#ff6b00]">
       <div className="space-y-8 max-w-md mx-auto text-left">
         <div className="space-y-4">
@@ -26,12 +27,12 @@ function Home() {
             src="/logo.png"
             style={{
               objectFit: "contain",
-              width: "100%", // This will make the image responsive to the width of its container.
-              height: "auto" // This will maintain the image's aspect ratio.
+              width: "100%", 
+              height: "auto" 
             }}
             
           />
-          <p className="text-[#b3b3b3] text-xl">Guess Amazon prices.</p>
+          <p className="text-[#b3b3b3] text-xl">Guess the price of Amazon products and test your shopping skills.</p>
         </div>
         <div className="flex flex-col gap-4 min-[400px]:flex-row">
         <SignInButton />
