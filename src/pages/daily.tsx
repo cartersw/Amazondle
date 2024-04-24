@@ -27,9 +27,14 @@ function getCurrentDate(): string {
     }
   }
 
+ 
+  async function init() {
+    const rice = await fetchProduct("rice");
+    
+    return rice;
+}
 
-
-  const rice = await fetchProduct("rice");
+const rice = await init();
 
 const today = getCurrentDate();
 
