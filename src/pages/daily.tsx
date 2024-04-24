@@ -7,12 +7,12 @@ import axios from 'axios'
 
 function getCurrentDate(): string {
     const now = new Date();
-    return now.toLocaleDateString("en-US");  // Format the date as MM/DD/YYYY for US locale
+    return now.toLocaleDateString("en-US");  
 }
 
 function getCurrentDay(): number {
     const now = new Date();
-    return now.getDate();  // Returns the day of the month (from 1 to 31)
+    return now.getDate();  
 }
 
 const randomItems: string[] = [
@@ -169,7 +169,7 @@ console.log(product)
                         type="text"
                         className="flex-1 mx-2 border-none bg-transparent text-center"
                         onChange={handleInputChange}
-                        value={guesses.join('')} // This joins the guesses array into a single string
+                        value={guesses.join('')} 
                         placeholder=""
                         maxLength="7"
                     />
