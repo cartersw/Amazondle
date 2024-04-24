@@ -1,18 +1,18 @@
 
 import './daily.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios'
 
 
 
 function getCurrentDate(): string {
     const now = new Date();
-    return now.toLocaleDateString("en-US");  
+    return now.toLocaleDateString("en-US");
 }
 
 function getCurrentDay(): number {
     const now = new Date();
-    return now.getDate();  
+    return now.getDate();
 }
 
 const randomItems: string[] = [
@@ -66,7 +66,7 @@ const randomItems: string[] = [
     "Gloves",
     "Electric Kettle",
     "Yogurt"
-  ];
+];
 
 
 async function fetchProduct(item: string): Promise<any> {
@@ -90,39 +90,62 @@ const today = getCurrentDate();
 
 async function init() {
     const prod = await fetchProduct(randomItems[getCurrentDay()]);
-    
+
     return prod;
 }
 
 export default function Component() {
-    const [guesses, setGuesses] = useState(['', '', '', '', '', '', '']); 
 
+    const [guesses, setGuesses] = useState<string[]>(Array(7).fill(''));
     const [product, setProduct] = useState(null)
+    const [currentInput, setCurrentInput] = useState<string>('');
+
 
     const [isFetching, setIsFetching] = useState(false)
-    const handleInputChange = (event) => {
-        const newGuess = event.target.value;
-        
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newGuess = e.target.value;
+
         if (newGuess.match(/^[0-9]*\.?[0-9]{0,2}$/)) {
-            const newGuesses = [...newGuess].concat(new Array(7 - newGuess.length).fill(''));
-            setGuesses(newGuesses);
+            setCurrentInput(newGuess);
         }
+        else {
+            console.log("invalid")
+        }
+    };
+
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === 'Enter') {
+
+
+            console.log("pressed")
+            setGuesses(prevGuesses => {
+                const updatedGuesses = [...prevGuesses];
+                const firstEmptyIndex = updatedGuesses.indexOf('');
+                if (firstEmptyIndex !== -1) {
+                    updatedGuesses[firstEmptyIndex] = currentInput;
+                    console.log(updatedGuesses)
+                }
+                return updatedGuesses;
+            });
+            setCurrentInput('');
+
+        }
+
     };
 
 
 
 
-
     useEffect(() => {
-    setIsFetching(true)
-    init().then((product) => {
-        
-        setProduct(product) 
-        setIsFetching(false)
-    })
+        setIsFetching(true)
+        init().then((product) => {
+
+            setProduct(product)
+            setIsFetching(false)
+        })
     }, [])
 
-console.log(product)
+
 
     return (
 
@@ -142,41 +165,41 @@ console.log(product)
                         src={product?.picture}
                         style={{
                             objectFit: "contain",
-                            width: "50%", 
-                            height: "auto" 
-                          }}
+                            width: "50%",
+                            height: "auto"
+                        }}
                         width="200"
                     />
                     <h2 className="text-lg font-bold text-center">
                         {product?.title}
                     </h2>
                 </div>
+
                 <div className="mb-6">
                     <h3 className="font-semibold mb-2">Guesses:</h3>
                     <div className="grid gap-2">
-                        <div className="bg-gray-300 rounded h-10 w-full" />
-                        <div className="bg-gray-300 rounded h-10 w-full" />
-                        <div className="bg-gray-300 rounded h-10 w-full" />
-                        <div className="bg-gray-300 rounded h-10 w-full" />
-                        <div className="bg-gray-300 rounded h-10 w-full" />
-                        <div className="bg-gray-300 rounded h-10 w-full" />
-                        <div className="bg-gray-300 rounded h-10 w-full" />
+                        {guesses.map((guess, index) => (
+                            <div key={index} className={`bg-gray-300 rounded h-10 w-full flex items-center justify-center ${guess ? 'bg-blue-200' : ''}`}>
+                                {guess}
+                            </div>
+                        ))}
                     </div>
                 </div>
+            
                 <div className="flex items-center justify-between border rounded-lg p-2">
                     <DollarSignIcon className="text-xl" />
-                    <input
-                        type="text"
-                        className="flex-1 mx-2 border-none bg-transparent text-center"
-                        onChange={handleInputChange}
-                        value={guesses.join('')} 
-                        placeholder=""
-                        maxLength="7"
-                    />
-                    <ArrowRightIcon className="text-xl" />
-                </div>
-            </div>
+            <input
+                type="text"
+                className="flex-1 mx-2 border-none bg-transparent text-center"
+                onChange={handleInputChange}
+                onKeyDown={handleKeyPress}
+                placeholder=""
+                maxLength="7"
+            />
+            <ArrowRightIcon className="text-xl" />
         </div>
+            </div >
+        </div >
     )
 }
 function ArrowRightIcon(props) {

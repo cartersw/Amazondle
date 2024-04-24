@@ -27,7 +27,7 @@ export default function Component() {
           onKeyDown={handleEnterPress}
           value={theme}
         />
-         <p className="text-center text-white text-2xl mt-2">Press Enter to submit</p>
+         <p className="text-center text-white text-2xl mt-2">Press Enter to Submit</p>
       </div>
     </div>
   );
