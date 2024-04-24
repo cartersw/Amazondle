@@ -100,7 +100,8 @@ export default function Component() {
     const [product, setProduct] = useState(null)
     const [currentInput, setCurrentInput] = useState<string>('');
     const [attempts, setAttempts] = useState(0)
-
+    const normalizedPrice = parseFloat(product?.price.replace(/[^\d.-]/g, ''));
+    const [isCorrect, setisCorrect] = useState(false)
     const [isFetching, setIsFetching] = useState(false)
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newGuess = e.target.value;
@@ -117,13 +118,17 @@ export default function Component() {
     };
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' && currentInput) {
-            const normalizedPrice = parseFloat(product?.price.replace(/[^\d.-]/g, ''));
-            const isCorrect = parseFloat(currentInput) === normalizedPrice;
+        const normalizedPrice = parseFloat(product?.price.replace(/[^\d.-]/g, ''));
+        
+        if (e.key === 'Enter' && currentInput && isCorrect === false) {
+            
+            setisCorrect(parseFloat(currentInput) === normalizedPrice);
+            const currentIsCorrect = parseFloat(currentInput) === normalizedPrice;
             console.log(currentInput)
             console.log(product?.price)
-            setGuesses(prevGuesses => [...prevGuesses, { guess: currentInput, correct: isCorrect }]);
-
+            console.log(isCorrect)
+            setGuesses(prevGuesses => [...prevGuesses, { guess: currentIsCorrect ? "Correct!" : currentInput, correct: currentIsCorrect }]);
+            
             setCurrentInput('');
            
         }
