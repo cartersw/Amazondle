@@ -99,7 +99,7 @@ export default function Component() {
     const [guesses, setGuesses] = useState<string[]>([]);
     const [product, setProduct] = useState(null)
     const [currentInput, setCurrentInput] = useState<string>('');
-
+    const [attempts, setAttempts] = useState(0)
 
     const [isFetching, setIsFetching] = useState(false)
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,6 +107,8 @@ export default function Component() {
 
         if (newGuess.match(/^\d+\.\d{2}$/)) {
             setCurrentInput(newGuess);
+            setAttempts(attempts+1);
+            
         }
         else {
             setCurrentInput("Invalid Input")
@@ -118,6 +120,8 @@ export default function Component() {
             
             setGuesses(prevGuesses => [...prevGuesses, currentInput]);
             setCurrentInput('');
+            console.log(guesses)
+            console.log(attempts)
         }
 
     };
@@ -178,7 +182,7 @@ export default function Component() {
                         onChange={handleInputChange}
                         onKeyDown={handleKeyPress}
                         placeholder=""
-                        maxLength="7"
+                        maxLength="20"
                     />
                     <ArrowRightIcon className="text-xl" />
                 </div>
