@@ -7,70 +7,70 @@ import './index.css';
 
 function Daily() {
 
-  return <button className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-6 shadow-sm flex items-center justify-center text-xl font-semibold cursor-pointer transition-colors" onClick={() => window.location.href = '/pages/about'}>Daily Item</button>;
+  return <button className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-8 shadow-sm flex items-center justify-center text-3xl font-bold cursor-pointer transition-colors" onClick={() => window.location.href = '/pages/daily'}>Daily Item</button>;
 }
 
 function Create() {
   
-  return <button className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-6 shadow-sm flex items-center justify-center text-xl font-semibold cursor-pointer transition-colors" onClick={() => window.location.href = '/pages/about'}>Create</button>;
+  return <button className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-8 shadow-sm flex items-center justify-center text-3xl font-bold cursor-pointer transition-colors" onClick={() => window.location.href = '/pages/about'}>Create Your Own</button>;
 }
 
 
 function Body() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#ff6b00] to-[#333] flex flex-col items-center justify-center px-4 md:px-6 py-12">
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-8 max-w-6xl w-full">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_400px] gap-8 max-w-6xl w-full">
         <div className="flex flex-col items-center justify-center gap-8">
           <div className="flex flex-col gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Daily />
-            <Create/>
+            <Create />
             </div>
           </div>
         </div>
-        <div className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-white">Leaderboard</h2>
-            <Link className="text-white hover:underline" href="#">
+        <div className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-8 shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-white">Leaderboard</h2>
+            <Link className="text-white hover:underline text-xl" href="#">
               View All
             </Link>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#222] text-white flex items-center justify-center text-sm font-medium">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-[#222] text-white flex items-center justify-center text-lg font-bold">
                   1
                 </div>
                 <div>
-                  <div className="font-medium text-white">John Doe</div>
-                  <div className="text-[#ccc] dark:text-[#aaa] text-sm">Score: 98</div>
+                  <div className="font-bold text-white text-xl">John Doe</div>
+                  <div className="text-[#ccc] dark:text-[#aaa] text-lg">Score: 98</div>
                 </div>
               </div>
-              <div className="text-[#ccc] dark:text-[#aaa] text-sm">2 days ago</div>
+              <div className="text-[#ccc] dark:text-[#aaa] text-lg">2 days ago</div>
             </div>
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#222] text-white flex items-center justify-center text-sm font-medium">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-[#222] text-white flex items-center justify-center text-lg font-bold">
                   2
                 </div>
                 <div>
-                  <div className="font-medium text-white">Jane Smith</div>
-                  <div className="text-[#ccc] dark:text-[#aaa] text-sm">Score: 92</div>
+                  <div className="font-bold text-white text-xl">Jane Smith</div>
+                  <div className="text-[#ccc] dark:text-[#aaa] text-lg">Score: 92</div>
                 </div>
               </div>
-              <div className="text-[#ccc] dark:text-[#aaa] text-sm">3 days ago</div>
+              <div className="text-[#ccc] dark:text-[#aaa] text-lg">3 days ago</div>
             </div>
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#222] text-white flex items-center justify-center text-sm font-medium">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-[#222] text-white flex items-center justify-center text-lg font-bold">
                   3
                 </div>
                 <div>
-                  <div className="font-medium text-white">Michael Johnson</div>
-                  <div className="text-[#ccc] dark:text-[#aaa] text-sm">Score: 88</div>
+                  <div className="font-bold text-white text-xl">Michael Johnson</div>
+                  <div className="text-[#ccc] dark:text-[#aaa] text-lg">Score: 88</div>
                 </div>
               </div>
-              <div className="text-[#ccc] dark:text-[#aaa] text-sm">4 days ago</div>
+              <div className="text-[#ccc] dark:text-[#aaa] text-lg">4 days ago</div>
             </div>
           </div>
         </div>
