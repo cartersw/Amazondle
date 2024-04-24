@@ -22,11 +22,12 @@ function Home() {
           <img
             alt="Amazondle"
             className="mx-auto"
-           
+            
             src="/logo.png"
             style={{
-              aspectRatio: "600/150",
-              objectFit: "cover",
+              objectFit: "contain",
+              width: "100%", // This will make the image responsive to the width of its container.
+              height: "auto" // This will maintain the image's aspect ratio.
             }}
             
           />
