@@ -40,7 +40,7 @@ const randomItems: string[] = [
     "Skirt",
     "Carrots",
     "Jacket",
-    "Ice Cream",
+    "Toaster Stroodle",
     "Air Fryer",
     "Bread",
     "Dress",
@@ -96,7 +96,7 @@ async function init() {
 
 export default function Component() {
 
-    const [guesses, setGuesses] = useState<string[]>(Array(7).fill(''));
+    const [guesses, setGuesses] = useState<string[]>([]);
     const [product, setProduct] = useState(null)
     const [currentInput, setCurrentInput] = useState<string>('');
 
@@ -105,30 +105,19 @@ export default function Component() {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newGuess = e.target.value;
 
-        if (newGuess.match(/^[0-9]*\.?[0-9]{0,2}$/)) {
+        if (newGuess.match(/^\d+\.\d{2}$/)) {
             setCurrentInput(newGuess);
         }
         else {
-            console.log("invalid")
+            setCurrentInput("Invalid Input")
         }
     };
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        if (e.key === 'Enter') {
-
-
-            console.log("pressed")
-            setGuesses(prevGuesses => {
-                const updatedGuesses = [...prevGuesses];
-                const firstEmptyIndex = updatedGuesses.indexOf('');
-                if (firstEmptyIndex !== -1) {
-                    updatedGuesses[firstEmptyIndex] = currentInput;
-                    console.log(updatedGuesses)
-                }
-                return updatedGuesses;
-            });
+        if (e.key === 'Enter' && currentInput) {
+            
+            setGuesses(prevGuesses => [...prevGuesses, currentInput]);
             setCurrentInput('');
-
         }
 
     };
@@ -148,60 +137,58 @@ export default function Component() {
 
 
     return (
-
         <div className="flex justify-center p-6 min-h-screen bg-gradient-to-r from-orange-500 to-black">
-            <div className="w-[600px] bg-white p-8 rounded-lg shadow-lg">
-                <div className="flex justify-center items-center mb-6">
+            <div className="w-[600px] bg-white p-8 rounded-lg shadow-lg flex flex-col"> 
+                <div className="mb-6 text-center"> 
                     <h2 className="text-2xl font-bold">Amazondle {today}<br></br>Todays Theme: {randomItems[getCurrentDay()]}</h2>
-
-
-
                 </div>
-                <div className="border rounded-lg p-4 mb-4 flex flex-col items-center">
+                <div className="border-4 border-gray-400 rounded-lg p-4 mb-4 flex flex-col items-center"> {/* Added border-4 and border-gray-400 for a thick border */}
                     <img
                         alt="Product"
-                        className="mb-4 h-[200px] w-[200px]"
-                        height="200"
+                        className="mb-4" // 
                         src={product?.picture}
                         style={{
                             objectFit: "contain",
-                            width: "50%",
-                            height: "auto"
+                            maxHeight: "200px", // Set max height to limit the size
+                            maxWidth: "100%", // Set max width to 100% of its container
                         }}
-                        width="200"
                     />
                     <h2 className="text-lg font-bold text-center">
                         {product?.title}
                     </h2>
                 </div>
-
-                <div className="mb-6">
-                    <h3 className="font-semibold mb-2">Guesses:</h3>
+    
+                <div className="mb-6 w-full text-center"> {/* Add w-full and text-center to center the title and adjust the width */}
+                    <h3 className="font-semibold text-center font-bold">Guesses:</h3> {/* Add font-bold to make it bold */}
                     <div className="grid gap-2">
                         {guesses.map((guess, index) => (
-                            <div key={index} className={`bg-gray-300 rounded h-10 w-full flex items-center justify-center ${guess ? 'bg-blue-200' : ''}`}>
+                            <div key={index} className="bg-gray-300 rounded h-10 w-full flex items-center justify-center bg-blue-200">
                                 {guess}
                             </div>
                         ))}
                     </div>
                 </div>
-            
-                <div className="flex items-center justify-between border rounded-lg p-2">
+                
+                {/* Keep the input box styles as before */}
+                <div className="flex items-center justify-between border rounded-lg p-2 mt-auto">
                     <DollarSignIcon className="text-xl" />
-            <input
-                type="text"
-                className="flex-1 mx-2 border-none bg-transparent text-center"
-                onChange={handleInputChange}
-                onKeyDown={handleKeyPress}
-                placeholder=""
-                maxLength="7"
-            />
-            <ArrowRightIcon className="text-xl" />
+                    <input
+                        type="text"
+                        className="flex-1 mx-2 border-none bg-transparent text-center"
+                        onChange={handleInputChange}
+                        onKeyDown={handleKeyPress}
+                        placeholder=""
+                        maxLength="7"
+                    />
+                    <ArrowRightIcon className="text-xl" />
+                </div>
+            </div>
         </div>
-            </div >
-        </div >
     )
 }
+
+
+
 function ArrowRightIcon(props) {
     return (
         <svg

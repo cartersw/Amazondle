@@ -22,41 +22,11 @@ function AppHeader() {
     const { isSignedIn, user } = useUser();
     const [count, setCount] = useState(0);
 
-    const fetchCount = async () => {
-        if (isSignedIn && user) {
-            try {
-                const response = await fetch(`http://localhost:5000/api/user/${user.id}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    setCount(data.counter); // Ensure the API returns the counter directly under `data`
-                } else {
-                    console.error('Failed to fetch count');
-                }
-            } catch (error) {
-                console.error('Error fetching count:', error);
-            }
-        }
-    };
-
-    const updateCount = async () => {
-        if (isSignedIn && user) {
-            try {
-                const response = await fetch(`http://localhost:5000/api/updateCount/${user.id}`, { method: 'POST' });
-                if (response.ok) {
-                    fetchCount();
-                } else {
-                    console.error('Failed to update count');
-                }
-            } catch (error) {
-                console.error('Error updating count:', error);
-            }
-        } else {
-            setCount(count + 1);
-        }
-    };
+  
+    
 
     useEffect(() => {
-        fetchCount();
+        
     }, [isSignedIn, user?.id]); // React to changes in user ID
 
     return (

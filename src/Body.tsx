@@ -29,7 +29,7 @@ const randomItems: string[] = [
   "Skirt",
   "Carrots",
   "Jacket",
-  "Ice Cream",
+  "Toaster Stroodle",
   "Air Fryer",
   "Bread",
   "Dress",
