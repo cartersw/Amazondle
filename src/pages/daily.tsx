@@ -1,12 +1,36 @@
 
 import './daily.css'; // Assuming you will create a separate CSS file for styles
 import React, { useState } from 'react';
+import axios from 'axios'
+
+
 
 function getCurrentDate(): string {
     const now = new Date();
     return now.toLocaleDateString("en-US");  // Format the date as MM/DD/YYYY for US locale
   }
   
+
+
+
+
+  async function fetchProduct(item: string): Promise<any> {
+    try {
+      const response = await axios.get("https://c9a1-69-109-176-86.ngrok-free.app/api/scrape", {
+        params: { item }
+      });
+      console.log('Product fetched:', response.data);
+      return response.data.data;  // Return the data for further processing
+    } catch (error) {
+      console.error('Error fetching product:', error);
+      return null;  // Return null or throw an error as needed
+    }
+  }
+
+
+
+  const rice = await fetchProduct("rice");
+
 const today = getCurrentDate();
 
 
@@ -30,20 +54,23 @@ export default function Component() {
 
 
 
-  
+
   return (
        
     <div className="flex justify-center p-6 min-h-screen bg-gradient-to-r from-orange-500 to-black">
       <div className="w-[600px] bg-white p-8 rounded-lg shadow-lg">
         <div className="flex justify-center items-center mb-6">
-          <h2 className="text-2xl font-bold">Amazondle {today}</h2>
+          <h2 className="text-2xl font-bold">Amazondle {today}<br></br>Todays Theme: Rice</h2>
+          
+          
+           
         </div>
         <div className="border rounded-lg p-4 mb-4 flex flex-col items-center">
           <img
             alt="Product"
             className="mb-4 h-[200px] w-[200px]"
             height="200"
-            src="/placeholder.svg"
+            src={rice.picture}
             style={{
               aspectRatio: "200/200",
               objectFit: "cover",
@@ -51,7 +78,7 @@ export default function Component() {
             width="200"
           />
           <h2 className="text-lg font-bold text-center">
-            Stanley Quencher Stainless Steel Vacuum Insulated Tumbler with Lid and Straw, 20 oz
+            {rice.title}
           </h2>
         </div>
         <div className="mb-6">
