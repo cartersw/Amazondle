@@ -15,6 +15,9 @@ function SignInButton() {
     return <button className="sign-in-btn" onClick={() => clerk.openSignIn({})}>Sign in</button>;
 }
 
+
+
+
 function AppHeader() {
     const { isSignedIn, user } = useUser();
     const [count, setCount] = useState(0);

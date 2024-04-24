@@ -5,7 +5,15 @@ import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './index.css';
 
+function Daily() {
 
+  return <button className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-6 shadow-sm flex items-center justify-center text-xl font-semibold cursor-pointer transition-colors" onClick={() => window.location.href = '/pages/about'}>Daily Item</button>;
+}
+
+function Create() {
+  
+  return <button className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-6 shadow-sm flex items-center justify-center text-xl font-semibold cursor-pointer transition-colors" onClick={() => window.location.href = '/pages/about'}>Create</button>;
+}
 
 
 function Body() {
@@ -15,19 +23,15 @@ function Body() {
         <div className="flex flex-col items-center justify-center gap-8">
           <div className="flex flex-col gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-6 shadow-sm flex items-center justify-center text-xl font-semibold cursor-pointer transition-colors">
-                Daily
-              </div>
-              <div className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-6 shadow-sm flex items-center justify-center text-xl font-semibold cursor-pointer transition-colors">
-                Create Your Own
-              </div>
+            <Daily />
+            <Create/>
             </div>
           </div>
         </div>
         <div className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-white">Leaderboard</h2>
-            <Link className="text-white hover:underline" href="/pages/about.tsx">
+            <Link className="text-white hover:underline" href="#">
               View All
             </Link>
           </div>
