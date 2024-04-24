@@ -47,7 +47,7 @@ export default function Component() {
     const handleInputChange = (event) => {
         const newGuess = event.target.value;
         
-        if (newGuess.match(/^\d{0,7}$/)) {
+        if (newGuess.match(/^[0-9]*\.?[0-9]{0,2}$/)) {
             const newGuesses = [...newGuess].concat(new Array(7 - newGuess.length).fill(''));
             setGuesses(newGuesses);
         }
