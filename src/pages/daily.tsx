@@ -103,6 +103,8 @@ export default function Component() {
     const normalizedPrice = parseFloat(product?.price.replace(/[^\d.-]/g, ''));
     const [isCorrect, setisCorrect] = useState(false)
     const [isFetching, setIsFetching] = useState(false)
+    const [inputError, setInputError] = useState('');
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newGuess = e.target.value;
 
@@ -121,16 +123,35 @@ export default function Component() {
         const normalizedPrice = parseFloat(product?.price.replace(/[^\d.-]/g, ''));
         
         if (e.key === 'Enter' && currentInput && isCorrect === false) {
-            
+            var msg = "";
             setisCorrect(parseFloat(currentInput) === normalizedPrice);
             const currentIsCorrect = parseFloat(currentInput) === normalizedPrice;
+            const priceDifference = normalizedPrice - parseFloat(currentInput);
             console.log(currentInput)
             console.log(product?.price)
             console.log(isCorrect)
-
-            
-
-            setGuesses(prevGuesses => [...prevGuesses, { guess: currentIsCorrect ? `${currentInput} is Correct!` : currentInput, correct: currentIsCorrect }]);
+            if(currentInput === "Invalid Input"){
+                msg = "Invalid Input";
+            }
+            else if (Math.abs(priceDifference) <= .1) {
+                msg = `$${currentInput} is Within 10 Cents`;
+                }
+            else if (Math.abs(priceDifference) <= .5) {
+                msg = `$${currentInput} is Within 50 Cents`;
+                }
+             else if (Math.abs(priceDifference) <= 1) {
+            msg = `$${currentInput} is Within a Dollar`;
+            } else if (priceDifference > 5) {
+            msg = `$${currentInput} is Much Lower`;
+            } else if (priceDifference < -5) {
+            msg = `$${currentInput} is Much Higher`;
+            } else if (priceDifference > 0) {
+            msg = `$${currentInput} is Lower`;
+            } else if (priceDifference < 0) {
+            msg = `$${currentInput} is Higher`;
+        }
+           
+            setGuesses(prevGuesses => [...prevGuesses, { guess: currentIsCorrect ? `${currentInput} is Correct!` : msg, correct: currentIsCorrect }]);
             
             setCurrentInput('');
            
