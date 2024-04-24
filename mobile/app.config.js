@@ -1,9 +1,16 @@
 module.exports = {
     name: 'Amazondle',
     version: '1.0.0',
-    scheme: "Amazondle",
     android: {
         package: 'com.amazondle.amazondle',
+    },
+    "splash": {
+        "image": "./assets/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff"
+    },
+    "ios": {
+        "bundleIdentifier": "com.amazondle.amazondle"
     },
     extra: {
         clerkPublishableKey: process.env.CLERK_PUBLISHABLE_KEY,
