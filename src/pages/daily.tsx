@@ -142,7 +142,7 @@ console.log(product)
                         src={product?.picture}
                         style={{
                             objectFit: "contain",
-                            width: "100%", 
+                            width: "50%", 
                             height: "auto" 
                           }}
                         width="200"
