@@ -68,6 +68,12 @@ function Create() {
   return <button className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-8 shadow-sm flex items-center justify-center text-3xl font-bold cursor-pointer transition-colors" onClick={() => window.location.href = '/pages/create'}>Create Your Own</button>;
 }
 
+function Instructions() {
+  
+  return <button className="bg-[#ffffff] text-black hover:bg-[#ababab] rounded-lg p-8 shadow-sm flex items-center justify-center text-3xl font-bold cursor-pointer transition-colors" onClick={() => window.location.href = '/pages/instructions'}>How to play</button>;
+}
+
+
 function getCurrentDay(): number {
   const now = new Date();
   return now.getDate(); 
@@ -77,8 +83,12 @@ function Body() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#ff6b00] to-[#333] flex flex-col items-center justify-center px-4 md:px-6 py-12">
       <div className="grid grid-cols-1 md:grid-cols-[1fr_400px] gap-8 max-w-6xl w-full">
+    
         <div className="flex flex-col items-center justify-center gap-8">
           <div className="flex flex-col gap-6">
+          <div className="w-full flex justify-center">
+          <Instructions />
+        </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Daily />
             <Create />

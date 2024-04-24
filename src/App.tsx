@@ -8,6 +8,8 @@ import Body from './Body';
 import Daily from './pages/daily';
 import Create from './pages/create';
 import CreateGame from './pages/create-game';
+import Instructions from './pages/instructions';
+
 import { SignedOut, SignedIn } from '@clerk/clerk-react';
 
 function App() {
@@ -24,6 +26,7 @@ function App() {
                     <Route path="/pages/daily" element={<Daily />} />
                     <Route path="/pages/create" element={<Create />} />
                     <Route path="/pages/create-game" element={<CreateGame />} />
+                    <Route path="/pages/instructions" element={<Instructions />} />
                 </Routes>
            </SignedIn>
         </Router>
