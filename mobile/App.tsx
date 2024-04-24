@@ -40,7 +40,14 @@ const SignOut = () => {
 const LandingPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <Image
+        source={require("./assets/logo.png")} // Make sure the path is correct
+        resizeMode="contain" // This ensures the logo maintains its aspect ratio
+        style={styles.logo} // Style for the logo
+      />
+      <View style={styles.content}>
+        <Text style={styles.title}>Welcome to Amazondle</Text>
+        <Text style={styles.subtitle}>The game to guess prices!</Text>
         <View style={styles.buttonContainer}>
           <Button
             title="Sign In"
@@ -51,15 +58,6 @@ const LandingPage = ({ navigation }) => {
             onPress={() => navigation.navigate("SignUp")}
           />
         </View>
-      </View>
-      <Image
-        source={require("./assets/logo.png")} // Make sure the path is correct
-        resizeMode="contain" // This ensures the logo maintains its aspect ratio
-        style={styles.logo} // Style for the logo
-      />
-      <View style={styles.content}>
-        <Text style={styles.title}>Welcome to Amazondle</Text>
-        <Text style={styles.subtitle}>The game to guess prices!</Text>
       </View>
     </View>
   );
@@ -158,15 +156,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     justifyContent: "flex-start", // Adjust alignment
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    marginTop: 20,
-  },
-  buttonContainer: {
-    flexDirection: "row",
   },
   content: {
     flex: 1,
