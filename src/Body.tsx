@@ -70,7 +70,7 @@ function Create() {
 
 function getCurrentDay(): number {
   const now = new Date();
-  return now.getDate();  // Returns the day of the month (from 1 to 31)
+  return now.getDate(); 
 }
 
 function Body() {
