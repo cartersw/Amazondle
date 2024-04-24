@@ -10,8 +10,63 @@ function getCurrentDate(): string {
     return now.toLocaleDateString("en-US");  // Format the date as MM/DD/YYYY for US locale
 }
 
+function getCurrentDay(): number {
+    const now = new Date();
+    return now.getDate();  // Returns the day of the month (from 1 to 31)
+}
 
-
+const randomItems: string[] = [
+    "Microwave",
+    "Spaghetti",
+    "Refrigerator",
+    "T-shirt",
+    "Jeans",
+    "Apple",
+    "Toaster",
+    "Blender",
+    "Rice",
+    "Coffee Maker",
+    "Sweater",
+    "Pants",
+    "Banana",
+    "Dishwasher",
+    "Oven",
+    "Chicken",
+    "Washing Machine",
+    "Hoodie",
+    "Shoes",
+    "Broccoli",
+    "Vacuum Cleaner",
+    "Skirt",
+    "Carrots",
+    "Jacket",
+    "Ice Cream",
+    "Air Fryer",
+    "Bread",
+    "Dress",
+    "Pizza",
+    "Slow Cooker",
+    "Hat",
+    "Tomatoes",
+    "Iron",
+    "Steak",
+    "Scarf",
+    "Mixer",
+    "Soup",
+    "Socks",
+    "Espresso Machine",
+    "Salad",
+    "Tie",
+    "Grill",
+    "Cookies",
+    "Fan",
+    "Cheese",
+    "Sandwich Maker",
+    "Berries",
+    "Gloves",
+    "Electric Kettle",
+    "Yogurt"
+  ];
 
 
 async function fetchProduct(item: string): Promise<any> {
@@ -28,15 +83,16 @@ async function fetchProduct(item: string): Promise<any> {
 }
 
 
-async function init() {
-    const rice = await fetchProduct("rice");
-    
-    return rice;
-}
+
 
 
 const today = getCurrentDate();
 
+async function init() {
+    const prod = await fetchProduct(randomItems[getCurrentDay()]);
+    
+    return prod;
+}
 
 export default function Component() {
     const [guesses, setGuesses] = useState(['', '', '', '', '', '', '']); 
@@ -73,7 +129,7 @@ console.log(product)
         <div className="flex justify-center p-6 min-h-screen bg-gradient-to-r from-orange-500 to-black">
             <div className="w-[600px] bg-white p-8 rounded-lg shadow-lg">
                 <div className="flex justify-center items-center mb-6">
-                    <h2 className="text-2xl font-bold">Amazondle {today}<br></br>Todays Theme: Rice</h2>
+                    <h2 className="text-2xl font-bold">Amazondle {today}<br></br>Todays Theme: {randomItems[getCurrentDay()]}</h2>
 
 
 
@@ -85,9 +141,10 @@ console.log(product)
                         height="200"
                         src={product?.picture}
                         style={{
-                            aspectRatio: "200/200",
-                            objectFit: "cover",
-                        }}
+                            objectFit: "contain",
+                            width: "100%", 
+                            height: "auto" 
+                          }}
                         width="200"
                     />
                     <h2 className="text-lg font-bold text-center">

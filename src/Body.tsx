@@ -7,7 +7,7 @@ import './index.css';
 
 function Daily() {
 
-  return <button className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-8 shadow-sm flex items-center justify-center text-3xl font-bold cursor-pointer transition-colors" onClick={() => window.location.href = '/pages/daily'}>Daily Item</button>;
+  return <button className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-8 shadow-sm flex items-center justify-center text-3xl font-bold cursor-pointer transition-colors" onClick={() => window.location.href = '/pages/daily'}>Daily Theme</button>;
 }
 
 function Create() {
