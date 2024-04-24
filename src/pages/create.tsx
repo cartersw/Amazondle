@@ -1,5 +1,5 @@
 
-import './daily.css'; // Assuming you will create a separate CSS file for styles
+import './create.css'; // Assuming you will create a separate CSS file for styles
 import React, { useState } from 'react';
 
 function getCurrentDate(): string {

@@ -6,6 +6,7 @@ import AppHeader from './AppHeader';
 import About from './pages/about';
 import Body from './Body';
 import Daily from './pages/daily';
+import Create from './pages/create';
 import { SignedOut, SignedIn } from '@clerk/clerk-react';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
                     <Route path="/pages/about" element={<About />} />
                     <Route path="/" element={<Body />} />
                     <Route path="/pages/daily" element={<Daily />} />
+                    <Route path="/pages/create" element={<Create />} />
                 </Routes>
            </SignedIn>
         </Router>
