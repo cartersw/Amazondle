@@ -34,28 +34,66 @@ const today = getCurrentDate();
 
 
 export default function Component() {
+
+    const [guesses, setGuesses] = useState<string[]>([]);
+    const [product, setProduct] = useState(null)
+    const [currentInput, setCurrentInput] = useState<string>('');
+    const [attempts, setAttempts] = useState(0)
+    const normalizedPrice = parseFloat(product?.price.replace(/[^\d.-]/g, ''));
+    const [isCorrect, setisCorrect] = useState(false)
+    const [isFetching, setIsFetching] = useState(false)
     const location = useLocation();
     const theme = location.state?.theme;
-    console.log(theme)
-    const [guesses, setGuesses] = useState(['', '', '', '', '', '', '']); 
+    
 
-    const [product, setProduct] = useState(null)
+    
 
-    const [isFetching, setIsFetching] = useState(false)
-    const handleInputChange = (event) => {
-        const newGuess = event.target.value;
-        
-        if (newGuess.match(/^[0-9]*\.?[0-9]{0,2}$/)) {
-            const newGuesses = [...newGuess].concat(new Array(7 - newGuess.length).fill(''));
-            setGuesses(newGuesses);
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newGuess = e.target.value;
+
+        if (newGuess.match(/^\d+\.\d{2}$/)) {
+            
+            setAttempts(attempts + 1);
+            
+            setCurrentInput(newGuess);
+        }
+        else {
+            setCurrentInput("Invalid Input")
         }
     };
 
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        const normalizedPrice = parseFloat(product?.price.replace(/[^\d.-]/g, ''));
+        
+        if (e.key === 'Enter' && currentInput && isCorrect === false) {
+            
+            setisCorrect(parseFloat(currentInput) === normalizedPrice);
+            const currentIsCorrect = parseFloat(currentInput) === normalizedPrice;
+            console.log(currentInput)
+            console.log(product?.price)
+            console.log(isCorrect)
+
+            
+
+            setGuesses(prevGuesses => [...prevGuesses, { guess: currentIsCorrect ? `${currentInput} is Correct!` : currentInput, correct: currentIsCorrect }]);
+            
+            setCurrentInput('');
+           
+        }
+
+    };
+
+
+
+
+    
     async function init() {
         const prod = await fetchProduct(theme);
         
         return prod;
     }
+
+    
 
 
 
@@ -69,63 +107,58 @@ export default function Component() {
     })
     }, [])
 
-console.log(product)
-
-    return (
-        
-
-        <div className="flex justify-center p-6 min-h-screen bg-gradient-to-r from-orange-500 to-black">
-            <div className="w-[600px] bg-white p-8 rounded-lg shadow-lg">
-                <div className="flex justify-center items-center mb-6">
-                    <h2 className="text-2xl font-bold">Chosen Theme: {theme}</h2>
 
 
+return (
+    <div className="flex justify-center p-6 min-h-screen bg-gradient-to-r from-orange-500 to-black">
+        <div className="w-[600px] bg-white p-8 rounded-lg shadow-lg flex flex-col">
+            <div className="mb-6 text-center">
+                <h2 className="text-2xl font-bold">Amazondle<br></br>Chosen Theme: {theme} </h2>
+            </div>
+            <div className="border-4 border-gray-400 rounded-lg p-4 mb-4 flex flex-col items-center">
+                <img
+                    alt="Product"
+                    className="mb-4" // 
+                    src={product?.picture}
+                    style={{
+                        objectFit: "contain",
+                        maxHeight: "200px",
+                        maxWidth: "100%",
+                    }}
+                />
+                <h2 className="text-lg font-bold text-center">
+                    {product?.title}
+                </h2>
+            </div>
 
+            <div className="mb-6 w-full text-center">
+        <h3 className="font-semibold text-center font-bold">Guesses:</h3>
+        <div className="grid gap-2">
+            {guesses.map((item, index) => (
+                <div key={index} className={`rounded h-10 w-full flex items-center justify-center ${item.correct ? 'bg-green-300' : 'bg-red-300'}`}>
+                    
+                    {item.guess}
                 </div>
-                <div className="border rounded-lg p-4 mb-4 flex flex-col items-center">
-                    <img
-                        alt="Product"
-                        className="mb-4 h-[200px] w-[200px]"
-                        height="200"
-                        src={product?.picture}
-                        style={{
-                            objectFit: "contain",
-                            width: "50%", 
-                            height: "auto" 
-                          }}
-                        width="200"
-                    />
-                    <h2 className="text-lg font-bold text-center">
-                        {product?.title}
-                    </h2>
-                </div>
-                <div className="mb-6">
-                    <h3 className="font-semibold mb-2">Guesses:</h3>
-                    <div className="grid gap-2">
-                        <div className="bg-gray-300 rounded h-10 w-full" />
-                        <div className="bg-gray-300 rounded h-10 w-full" />
-                        <div className="bg-gray-300 rounded h-10 w-full" />
-                        <div className="bg-gray-300 rounded h-10 w-full" />
-                        <div className="bg-gray-300 rounded h-10 w-full" />
-                        <div className="bg-gray-300 rounded h-10 w-full" />
-                        <div className="bg-gray-300 rounded h-10 w-full" />
-                    </div>
-                </div>
-                <div className="flex items-center justify-between border rounded-lg p-2">
-                    <DollarSignIcon className="text-xl" />
-                    <input
-                        type="text"
-                        className="flex-1 mx-2 border-none bg-transparent text-center"
-                        onChange={handleInputChange}
-                        value={guesses.join('')} 
-                        placeholder=""
-                        maxLength="7"
-                    />
-                    <ArrowRightIcon className="text-xl" />
+                    ))}
                 </div>
             </div>
+
+
+            <div className="flex items-center justify-between border rounded-lg p-2 mt-auto">
+                <DollarSignIcon className="text-xl" />
+                <input
+                    type="text"
+                    className="flex-1 mx-2 border-none bg-transparent text-center"
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyPress}
+                    placeholder=""
+                    maxLength="20"
+                />
+                <ArrowRightIcon className="text-xl" />
+            </div>
         </div>
-    )
+    </div>
+)
 }
 function ArrowRightIcon(props) {
     return (

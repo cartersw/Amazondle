@@ -127,7 +127,10 @@ export default function Component() {
             console.log(currentInput)
             console.log(product?.price)
             console.log(isCorrect)
-            setGuesses(prevGuesses => [...prevGuesses, { guess: currentIsCorrect ? "Correct!" : currentInput, correct: currentIsCorrect }]);
+
+            
+
+            setGuesses(prevGuesses => [...prevGuesses, { guess: currentIsCorrect ? `${currentInput} is Correct!` : currentInput, correct: currentIsCorrect }]);
             
             setCurrentInput('');
            
