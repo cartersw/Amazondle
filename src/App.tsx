@@ -23,7 +23,7 @@ function App() {
                     <Route path="/" element={<Body />} />
                     <Route path="/pages/daily" element={<Daily />} />
                     <Route path="/pages/create" element={<Create />} />
-                    <Route path="/pages/createGame" element={<CreateGame />} />
+                    <Route path="/pages/create-game" element={<CreateGame />} />
                 </Routes>
            </SignedIn>
         </Router>

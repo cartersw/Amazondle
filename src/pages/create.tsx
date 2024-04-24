@@ -7,8 +7,8 @@ export default function Component() {
 
   const handleEnterPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault(); // Prevent default to avoid new line
-      navigate('/pages/create-game', { state: { theme } }); // Navigate and pass state
+      event.preventDefault(); 
+      navigate('/pages/create-game', { state: { theme } }); 
     }
   };
 
