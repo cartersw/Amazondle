@@ -24,6 +24,10 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginBottom: 15,
   },
+  errorText: {
+    color: "red",
+    marginBottom: 5,
+  },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
@@ -57,6 +61,7 @@ export default function SignInScreen({ navigation }) {
   const { signIn, setActive, isLoaded } = useSignIn();
   const [emailAddress, setEmailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const onSignInPress = async () => {
     if (!isLoaded) {
@@ -68,10 +73,16 @@ export default function SignInScreen({ navigation }) {
         password,
       });
       await setActive({ session: completeSignIn.createdSessionId });
-      // Navigate to the home screen after successful sign-in
       navigation.navigate("Home");
     } catch (err: any) {
       console.log(err + "it's here");
+      if (err.message.includes("Invalid password")) {
+        setErrorMessage("Invalid password. Please try again.");
+      } else {
+        setErrorMessage(
+          "An error occurred. Please try a different password or email/user combination."
+        );
+      }
     }
   };
 
@@ -90,11 +101,14 @@ export default function SignInScreen({ navigation }) {
           placeholderTextColor="#999"
           keyboardType="email-address"
           value={emailAddress}
-          placeholder="Email"
+          placeholder="Email or username"
           onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
         />
       </View>
       <View style={styles.inputContainer}>
+        {errorMessage !== "" && (
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        )}
         <TextInput
           style={styles.input}
           value={password}

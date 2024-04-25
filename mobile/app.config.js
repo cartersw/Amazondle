@@ -3,9 +3,13 @@ module.exports = {
     version: '1.0.0',
     android: {
         package: 'com.amazondle.amazondle',
+        adaptiveIcon: {
+            foregroundImage: "./assets/icon.png",
+            backgroundColor: "#1F104A",
+        },
     },
     "splash": {
-        "image": "./assets/splash.png",
+        "image": "./assets/icon.png",
         "resizeMode": "contain",
         "backgroundColor": "#ffffff"
     },
