@@ -174,7 +174,7 @@ return (
                     placeholder=""
                     maxLength="20"
                 />
-                <ArrowRightIcon className="text-xl" />
+                <DollarSignIcon className="text-xl" />
             </div>
         </div>
     </div>
