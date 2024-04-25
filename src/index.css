@@ -122,24 +122,23 @@ button:focus-visible {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  background: #fff; /* Adjust your header background as needed */
-  /* Other styles */
+  background: #fff; 
 }
 .auth-buttons {
   display: flex;
-  gap: 1rem; /* Space between sign-up and sign-in buttons */
+  gap: 1rem;
+  flex: 1; /* Allow this item to grow to push the logo towards center */
+  justify-content: flex-end; /* Align buttons to the end of the flex container */
+  margin-right: 50px; 
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
-  text-align: center;
-  justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem; /* Adjust padding as needed */
-  width: 90%; /* Ensure the header content spans the full width */
+  width: 100%; /* Ensure the header content spans the full width */
 }
-
 /* Amazondle black and orange logo*/
 .logo {
   height: 50px;
@@ -156,12 +155,15 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
+.left-content {
+  flex: 1; /* Take up space but allow other items to grow */
+}
 
 .left-content, .auth-buttons {
-  flex: 1; /*spacing*/
+  flex: 2; /*spacing*/
 }
 
 .logo {
-  flex: 0 0 auto; /* Ensures the logo does not grow or shrink */
-  margin: 0 140px; /* Adds margin to separate it from other elements */
+  flex: 0 1 auto; /* Don't grow, but allow shrinking if necessary */
+  margin-left: auto; /* This will push the logo towards the center/right */
 }

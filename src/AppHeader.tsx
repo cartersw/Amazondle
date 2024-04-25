@@ -32,9 +32,12 @@ function AppHeader() {
     return (
       <header className="app-header">
           <div className="header-content">
-          <div className="left-content"> {/* New div for left-aligned buttons */}
+          <div className="left-content"> 
           <button onClick={() => window.location.href = '/'}>Home</button>
           <button onClick={() => window.location.href = '/pages/about'}>About Us</button>
+          <a href="https://github.com/cartersw/Amazondle" target="_blank" rel="noopener noreferrer">
+  <button>Github</button>
+</a>
          
           
         </div>
