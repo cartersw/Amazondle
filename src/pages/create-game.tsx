@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import { useLocation } from 'react-router-dom';
-
+import { useUser } from "@clerk/clerk-react";
 
 function getCurrentDate(): string {
     const now = new Date();
@@ -34,7 +34,7 @@ const today = getCurrentDate();
 
 
 export default function Component() {
-
+    const { user } = useUser();
     const [guesses, setGuesses] = useState<string[]>([]);
     const [product, setProduct] = useState(null)
     const [currentInput, setCurrentInput] = useState<string>('');
@@ -46,7 +46,26 @@ export default function Component() {
     const theme = location.state?.theme;
     
 
-    
+    const updateGameStats = async (
+        username: string,
+        gamesPlayedInc: number,
+        attemptsCorrectInc: number,
+        attemptsWrongInc: number
+      ) => {
+        try {
+          const response = await axios.post(
+            `https://c9a1-69-109-176-86.ngrok-free.app/api/updateGameStats/${username}`,
+            {
+              gamesPlayedInc,
+              attemptsCorrectInc,
+              attemptsWrongInc,
+            }
+          );
+          console.log("Game stats updated successfully:", response.data);
+        } catch (error) {
+          console.error("Error updating game stats:", error);
+        }
+      };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newGuess = e.target.value;
@@ -95,7 +114,14 @@ export default function Component() {
         }
            
             setGuesses(prevGuesses => [...prevGuesses, { guess: currentIsCorrect ? `$${currentInput} is Correct!` : msg, correct: currentIsCorrect }]);
-            
+            if(currentIsCorrect){
+                updateGameStats(
+                    user?.username || "",
+                    0,
+                    1,
+                    attempts-1
+                  );
+            }
             setCurrentInput('');
            
         }

@@ -2,7 +2,7 @@
 import './daily.css';
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios'
-
+import { useUser } from "@clerk/clerk-react";
 
 
 function getCurrentDate(): string {
@@ -94,8 +94,12 @@ async function init() {
     return prod;
 }
 
-export default function Component() {
 
+
+
+
+export default function Component() {
+    const { user } = useUser();
     const [guesses, setGuesses] = useState<string[]>([]);
     const [product, setProduct] = useState(null)
     const [currentInput, setCurrentInput] = useState<string>('');
@@ -104,6 +108,33 @@ export default function Component() {
     const [isCorrect, setisCorrect] = useState(false)
     const [isFetching, setIsFetching] = useState(false)
     const [inputError, setInputError] = useState('');
+
+
+
+
+    const updateGameStats = async (
+        username: string,
+        gamesPlayedInc: number,
+        attemptsCorrectInc: number,
+        attemptsWrongInc: number
+      ) => {
+        try {
+          const response = await axios.post(
+            `https://c9a1-69-109-176-86.ngrok-free.app/api/updateGameStats/${username}`,
+            {
+              gamesPlayedInc,
+              attemptsCorrectInc,
+              attemptsWrongInc,
+            }
+          );
+          console.log("Game stats updated successfully:", response.data);
+        } catch (error) {
+          console.error("Error updating game stats:", error);
+        }
+      };
+
+
+
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newGuess = e.target.value;
@@ -153,6 +184,14 @@ export default function Component() {
            
             setGuesses(prevGuesses => [...prevGuesses, { guess: currentIsCorrect ? `$${currentInput} is Correct!` : msg, correct: currentIsCorrect }]);
             
+            if(currentIsCorrect){
+                updateGameStats(
+                    user?.username || "",
+                    0,
+                    1,
+                    attempts-1
+                  );
+            }
             setCurrentInput('');
            
         }

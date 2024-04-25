@@ -80,6 +80,10 @@ function getCurrentDay(): number {
 }
 
 function Body() {
+  
+  
+
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#ff6b00] to-[#333] flex flex-col items-center justify-center px-4 md:px-6 py-12">
       <div className="grid grid-cols-1 md:grid-cols-[1fr_400px] gap-8 max-w-6xl w-full">
