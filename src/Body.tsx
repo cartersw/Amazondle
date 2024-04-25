@@ -85,7 +85,14 @@ function getCurrentDay(): number {
 function Body() {
 
   const { user } = useUser();
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState({
+    data: {
+      username: "",
+      gamesPlayed: 0,
+      attemptsCorrect: 0,
+      attemptsWrong: 0
+    }
+  });
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -161,7 +168,9 @@ function Body() {
               <div className="flex flex-col items-center justify-center">
                 <div className="text-4xl font-bold flex items-center">
                   <PercentIcon className="h-6 w-6 mr-2" />
-                  {(attemptsWrong / attemptsCorrect).toFixed(2)}
+                  {
+    attemptsCorrect === 0 ? 0 : (attemptsWrong / attemptsCorrect).toFixed(2)
+  }
                 </div>
                 <div className="text-lg text-[#ccc] dark:text-[#aaa]">Average Guesses</div>
               </div>
