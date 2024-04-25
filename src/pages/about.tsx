@@ -10,8 +10,9 @@ import dario from "../assets/dario.jpg";
 
 
 
+
 const teamMembers = [
-    { name: "Carter Wildenradt", role: "Project Manager/Database", imageUrl: logo },
+    { name: "Carter Wildenradt", role: "Project Manager/Database", imageUrl: "/cartr.png" },
     { name: "Yahya Alrahmani", role: "Frontend Web", imageUrl: yahya },
     { name: "Carlos Vasquez", role: "Frontend Web", imageUrl: carlos },
     { name: "Gabriel Parra", role: "Frontend Mobile", imageUrl: gabriel },
