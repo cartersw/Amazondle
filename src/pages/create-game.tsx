@@ -94,7 +94,7 @@ export default function Component() {
             msg = `$${currentInput} is Higher`;
         }
            
-            setGuesses(prevGuesses => [...prevGuesses, { guess: currentIsCorrect ? `${currentInput} is Correct!` : msg, correct: currentIsCorrect }]);
+            setGuesses(prevGuesses => [...prevGuesses, { guess: currentIsCorrect ? `$${currentInput} is Correct!` : msg, correct: currentIsCorrect }]);
             
             setCurrentInput('');
            
