@@ -12,12 +12,12 @@ import dario from "../assets/dario.jpg";
 
 
 const teamMembers = [
-    { name: "Carter Wildenradt", role: "Project Manager/Database", imageUrl: "/cartr.png" },
+    { name: "Carter Wildenradt", role: "Project Manager/Frontend", imageUrl: "/cartr.png" },
     { name: "Yahya Alrahmani", role: "Frontend Web", imageUrl: yahya },
     { name: "Carlos Vasquez", role: "Frontend Web", imageUrl: carlos },
     { name: "Gabriel Parra", role: "Frontend Mobile", imageUrl: gabriel },
     { name: "Jhon Tabio", role: " API", imageUrl: jhon },
-    { name: "Dario Sansotta", role: "API", imageUrl: dario }
+    { name: "Dario Sansotta", role: "API/Database", imageUrl: dario }
 ];
 
 function About() {
