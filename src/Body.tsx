@@ -161,7 +161,7 @@ function Body() {
               <div className="flex flex-col items-center justify-center">
                 <div className="text-4xl font-bold flex items-center">
                   <PercentIcon className="h-6 w-6 mr-2" />
-                  {attemptsWrong/attemptsCorrect}
+                  {(attemptsWrong / attemptsCorrect).toFixed(2)}
                 </div>
                 <div className="text-lg text-[#ccc] dark:text-[#aaa]">Average Guesses</div>
               </div>
