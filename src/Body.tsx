@@ -99,52 +99,34 @@ function Body() {
           <div className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-4 shadow-sm">
             <div className="flex flex-col items-center justify-center mb-4">
               <h2 className="text-2xl font-bold text-white">Today's Theme</h2>
-              <p className="text-4xl font-bold">{randomItems[getCurrentDay()]}</p>
+              <p className="text-4xl font-bold">Nature</p>
             </div>
           </div>
           <div className="bg-[#222] text-white hover:bg-[#333] rounded-lg p-8 shadow-sm">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">Daily Leaderboard</h2>
-              <Link className="text-white hover:underline text-xl" href="#">
-                View All
-              </Link>
+            <div className="flex flex-col items-center justify-center mb-6">
+              <h2 className="text-2xl font-bold text-white">Player Stats</h2>
             </div>
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-[#222] text-white flex items-center justify-center text-lg font-bold">
-                    1
-                  </div>
-                  <div>
-                    <div className="font-bold text-white text-xl">John Doe</div>
-                    <div className="text-[#ccc] dark:text-[#aaa] text-lg">Score: 98</div>
-                  </div>
+            <div className="grid grid-cols-1 gap-4">
+              <div className="flex flex-col items-center justify-center">
+                <div className="text-4xl font-bold flex items-center">
+                  <CheckIcon className="h-6 w-6 mr-2 text-green-500" />
+                  98
                 </div>
-                <div className="text-[#ccc] dark:text-[#aaa] text-lg">2 days ago</div>
+                <div className="text-lg text-[#ccc] dark:text-[#aaa]">Correct Guesses</div>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-[#222] text-white flex items-center justify-center text-lg font-bold">
-                    2
-                  </div>
-                  <div>
-                    <div className="font-bold text-white text-xl">Jane Smith</div>
-                    <div className="text-[#ccc] dark:text-[#aaa] text-lg">Score: 92</div>
-                  </div>
+              <div className="flex flex-col items-center justify-center">
+                <div className="text-4xl font-bold flex items-center">
+                  <XIcon className="h-6 w-6 mr-2 text-red-500" />
+                  12
                 </div>
-                <div className="text-[#ccc] dark:text-[#aaa] text-lg">3 days ago</div>
+                <div className="text-lg text-[#ccc] dark:text-[#aaa]">Incorrect Guesses</div>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-[#222] text-white flex items-center justify-center text-lg font-bold">
-                    3
-                  </div>
-                  <div>
-                    <div className="font-bold text-white text-xl">Michael Johnson</div>
-                    <div className="text-[#ccc] dark:text-[#aaa] text-lg">Score: 88</div>
-                  </div>
+              <div className="flex flex-col items-center justify-center">
+                <div className="text-4xl font-bold flex items-center">
+                  <PercentIcon className="h-6 w-6 mr-2" />
+                  92.5
                 </div>
-                <div className="text-[#ccc] dark:text-[#aaa] text-lg">4 days ago</div>
+                <div className="text-lg text-[#ccc] dark:text-[#aaa]">Average Guesses</div>
               </div>
             </div>
           </div>
@@ -153,5 +135,65 @@ function Body() {
     </div>
   )
 }
-  
+function CheckIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  )
+}
+
+
+function PercentIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="19" x2="5" y1="5" y2="19" />
+      <circle cx="6.5" cy="6.5" r="2.5" />
+      <circle cx="17.5" cy="17.5" r="2.5" />
+    </svg>
+  )
+}
+
+
+function XIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M18 6 6 18" />
+      <path d="m6 6 12 12" />
+    </svg>
+  )
+}
   export default Body;
